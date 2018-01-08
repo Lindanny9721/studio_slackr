@@ -12,12 +12,10 @@ import 'firebase/auth';
 import Button from 'material-ui/Button';
 import Input from 'material-ui/Input';
 import List, { ListItem, ListItemText } from 'material-ui/List';
-import Menu, { MenuItem } from 'material-ui/Menu';
 import React from 'react';
 import base from './rebase';
 import firebase from 'firebase/app';
-import logo from './logo.svg';
-import { CircularProgress } from 'material-ui/Progress';
+
 
 // TODO move these css imports to their respective components once created.
 import './AddMessageInput.css';
@@ -26,6 +24,7 @@ import './ChannelList.css';
 import './Header.css';
 import './Message.css';
 
+import Header from './Header';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -69,31 +68,6 @@ export default class App extends React.Component {
     this.setState({selected: channel});
   }
   render() {
-    // TODO this code to generate the header should be moved a component.
-    var userStatus = <CircularProgress/>; // For loading state
-    if(this.state.status === 'in') {
-      userStatus = (<div onClick={this.handleOpen.bind(this)}>
-        <img alt="user profile"
-          className="Header-photo" src={this.state.user.photoURL} />
-        <Menu anchorEl={this.state.anchorEl} open={this.state.open}
-          onClose={this.handleClose.bind(this)}>
-          <MenuItem onClick={this.handleSignOut}>Sign out</MenuItem>
-        </Menu>
-      </div>);
-    } else if(this.state.status === 'out') {
-      userStatus = (<Button raised color="primary" onClick={this.handleSignIn}>
-        SIGN IN
-      </Button>);
-    }
-    var Header = (
-        <header className="Header">
-          <img src={logo} className="Header-logo" alt="logo" />
-          SLACKR
-          <span className="Header-divider"></span>
-          {userStatus}
-        </header>
-    );
-
     // TODO this seems like it could be a component too?
     var channelButtons = [];
     for(var channel in this.state.channels) {
@@ -170,7 +144,7 @@ export default class App extends React.Component {
 
     return (
       <div className="App">
-        {Header}
+        <Header/>
         <div className="App-body">
           {ChannelList}
           {Channel}
